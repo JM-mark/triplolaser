@@ -15,6 +15,16 @@
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%2317140F'/%3E%3Ctext x='20' y='27' font-family='Georgia, serif' font-weight='600' font-size='17' fill='%23C9A15C' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
 
+<!--
+  IMAGEM DO HERO: foto de banco de imagens (Unsplash, licenca gratuita,
+  fotografo engin akyurt - https://unsplash.com/photos/g-m8EDc4X6Q) usada
+  como PLACEHOLDER visual condizente com o nicho (tratamento estetico facial).
+  NAO e uma foto real do espaco da Triplolaser. Substituir por foto real da
+  clinica assim que a cliente autorizar/fornecer.
+-->
+<link rel="preload" as="image" href="assets/hero.webp" fetchpriority="high">
+<meta property="og:image" content="assets/hero.jpg">
+
 <!-- Schema.org LocalBusiness -->
 <script type="application/ld+json">
 {
@@ -103,12 +113,26 @@
 
   ::selection { background: #C9A15C; color: #17140F; }
 
+  /* --- hero: cascading line reveal --- */
+  .hero-line { opacity: 0; transform: translateY(26px); transition: opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1); }
+  .hero-line.in { opacity: 1; transform: translateY(0); }
+  .hl0 { transition-delay: .05s; }
+  .hl1 { transition-delay: .24s; }
+  .hl2 { transition-delay: .42s; }
+  .hl3 { transition-delay: .60s; }
+  .hl4 { transition-delay: .80s; }
+  .hl5 { transition-delay: 1.0s; }
+
+  /* --- hero: floating social-proof card --- */
+  #heroCard { transition: transform .2s ease-out; will-change: transform; }
+
   /* respect reduced motion: kill all custom animation/transition */
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .fade-up { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hero-line { opacity: 1 !important; transform: none !important; transition: none !important; }
     .wa-pulse { animation: none !important; }
-    .card-hover, .btn-anim, header { transition: none !important; }
+    .card-hover, .btn-anim, header, #heroCard { transition: none !important; }
   }
 </style>
 </head>
@@ -176,28 +200,41 @@
 </header>
 
 <!-- HERO -->
-<section id="topo" class="relative bg-charcoal pt-36 pb-24 px-5 md:px-8 overflow-hidden">
-  <div class="absolute inset-0 opacity-[0.05]" style="background-image:repeating-linear-gradient(115deg, #C9A15C 0px, #C9A15C 1px, transparent 1px, transparent 90px);"></div>
-  <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-gold/10 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-0 -left-24 w-72 h-72 bg-rose/10 rounded-full blur-3xl"></div>
+<section id="topo" class="relative min-h-[100svh] flex items-center bg-charcoal pt-28 pb-20 px-5 md:px-8 overflow-hidden">
 
-  <div class="max-w-3xl mx-auto text-center relative">
-    <div class="fade-up inline-flex items-center gap-2 bg-gold/10 border border-gold/25 rounded-full px-4 py-2 mb-8">
+  <!-- background photo (see comment in <head> re: licensing/placeholder) -->
+  <picture class="absolute inset-0 z-0">
+    <source srcset="assets/hero.webp" type="image/webp">
+    <img src="assets/hero.jpg" alt="Ambiente de cuidado estético, tratamento facial"
+         class="w-full h-full object-cover object-[30%_40%]"
+         fetchpriority="high" loading="eager" decoding="async" width="1920" height="1080">
+  </picture>
+
+  <!-- dark gradient overlay for legibility (charcoal tones, same elegant palette, no blue/mystery tint) -->
+  <div class="absolute inset-0 z-10" style="background: linear-gradient(100deg, rgba(23,20,15,.94) 5%, rgba(23,20,15,.82) 40%, rgba(23,20,15,.58) 68%, rgba(23,20,15,.42) 100%);"></div>
+  <div class="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/90 via-transparent to-charcoal/30"></div>
+
+  <div class="absolute inset-0 z-10 opacity-[0.06]" style="background-image:repeating-linear-gradient(115deg, #C9A15C 0px, #C9A15C 1px, transparent 1px, transparent 90px);"></div>
+  <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-gold/10 rounded-full blur-3xl z-10"></div>
+
+  <div class="max-w-3xl mx-auto text-center relative z-20">
+    <div class="hero-line hl0 inline-flex items-center gap-2 bg-gold/10 border border-gold/25 rounded-full px-4 py-2 mb-8">
       <span class="text-gold stars text-sm">★★★★★</span>
       <span class="text-cream text-sm font-medium">4,9 no Google · 248 avaliações</span>
     </div>
 
-    <h1 class="fade-up d1 font-serif font-semibold text-cream leading-[1.12] mb-6" style="font-size:clamp(2.2rem,5.5vw,3.6rem)">
-      Diga adeus à lâmina. Depilação a laser de verdade em Indaiatuba.
+    <h1 class="text-cream leading-[1.12] mb-6" style="font-size:clamp(2.2rem,5.5vw,3.6rem)">
+      <span class="hero-line hl1 block font-sans font-extrabold">Diga adeus à lâmina.</span>
+      <span class="hero-line hl2 block font-sans font-extrabold">Depilação a laser com <em class="font-serif italic font-medium text-gold">resultado</em> real.</span>
     </h1>
 
-    <p class="fade-up d2 text-cream/70 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+    <p class="hero-line hl3 text-cream/70 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
       Tecnologia avançada, profissionais especializadas e um ambiente pensado
       para o seu conforto, do primeiro atendimento ao resultado que você
       espera ver no espelho.
     </p>
 
-    <div class="fade-up d3 flex flex-col sm:flex-row items-center justify-center gap-4">
+    <div class="hero-line hl4 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="https://wa.me/5519992293117?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener"
          class="btn-anim w-full sm:w-auto bg-gold hover:bg-gold2 text-charcoal font-bold text-base px-9 py-4 rounded-full shadow-lg shadow-gold/15">
          Agendar Avaliação pelo WhatsApp
@@ -207,6 +244,16 @@
          Ver Procedimentos
       </a>
     </div>
+  </div>
+
+  <!-- floating social-proof card, real data (rating + real review excerpt), subtle parallax -->
+  <div id="heroCard" class="hero-line hl5 absolute z-20 bottom-8 inset-x-5 md:inset-x-auto md:bottom-12 md:right-10 lg:right-16 max-w-[280px] md:mx-0 mx-auto bg-cream/95 backdrop-blur rounded-2xl shadow-2xl p-5 border border-gold/20">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-gold2 stars text-sm">★★★★★</span>
+      <span class="text-ink text-sm font-bold">4,9</span>
+    </div>
+    <p class="font-serif italic text-ink text-sm leading-snug mb-2">"Profissionais muito cuidadosas, do início ao fim do procedimento."</p>
+    <p class="text-softtext text-xs">Maria Eduarda · avaliação no Google</p>
   </div>
 </section>
 
@@ -473,6 +520,50 @@
   onScroll();
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // hero: cascading line-by-line reveal (headline, subheadline, CTA, card)
+  const heroLines = document.querySelectorAll('.hero-line');
+  if (reduceMotion) {
+    heroLines.forEach(el => el.classList.add('in'));
+  } else {
+    // double rAF: ensures the initial (opacity:0) state paints first, so the
+    // transition actually animates instead of snapping straight to visible
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      heroLines.forEach(el => el.classList.add('in'));
+    }));
+  }
+
+  // hero: floating social-proof card, subtle parallax
+  const heroCard = document.getElementById('heroCard');
+  const heroSection = document.getElementById('topo');
+  if (heroCard && heroSection && !reduceMotion) {
+    const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (isFinePointer) {
+      // desktop: card drifts opposite to the mouse position within the hero
+      heroSection.addEventListener('mousemove', (e) => {
+        const rect = heroSection.getBoundingClientRect();
+        const dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+        const dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+        heroCard.style.transform = `translate(${dx * -10}px, ${dy * -8}px)`;
+      }, { passive: true });
+      heroSection.addEventListener('mouseleave', () => {
+        heroCard.style.transform = 'translate(0,0)';
+      });
+    } else {
+      // mobile/touch: subtle scroll-linked parallax instead of gyroscope
+      // (avoids the iOS motion-permission prompt for a purely decorative effect)
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          const y = Math.min(Math.max(window.scrollY, 0), 260);
+          heroCard.style.transform = `translateY(${y * 0.06}px)`;
+          ticking = false;
+        });
+      }, { passive: true });
+    }
+  }
 
   // scroll reveal
   const els = document.querySelectorAll('.fade-up');
