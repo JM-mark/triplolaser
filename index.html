@@ -225,13 +225,26 @@
       </p>
       <p class="text-softtext text-xs mt-2 tracking-wide">AVALIAÇÕES</p>
     </div>
+    <!--
+      As duas metricas abaixo (Equipe Especializada / Ambiente Inclusivo) usam
+      apenas atributos REAIS confirmados no perfil do Google Maps da clinica
+      (nenhum numero foi inventado). NAO temos dado real de "anos de
+      experiencia" nem de "procedimentos realizados" - se o cliente fornecer
+      esses numeros, trocar os dois cards abaixo por contadores animados
+      seguindo o mesmo padrao dos dois primeiros (classe "counter" +
+      data-target + data-decimals).
+    -->
     <div class="fade-up d2">
-      <p class="font-serif font-semibold text-gold2 leading-none" style="font-size:clamp(1.6rem,4vw,2.2rem)">100%</p>
-      <p class="text-softtext text-xs mt-2 tracking-wide">ESPAÇO ACOLHEDOR</p>
+      <div class="text-gold2 flex items-center justify-center" style="height:clamp(2rem,5vw,2.8rem)">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 9.5 8.5 3 9l5 4.3L6.5 20 12 16.3 17.5 20 16 13.3l5-4.3-6.5-.5z"/></svg>
+      </div>
+      <p class="text-softtext text-xs mt-2 tracking-wide">EQUIPE ESPECIALIZADA</p>
     </div>
     <div class="fade-up d3">
-      <p class="font-serif font-semibold text-gold2 leading-none" style="font-size:clamp(1.6rem,4vw,2.2rem)">6x</p>
-      <p class="text-softtext text-xs mt-2 tracking-wide">DIAS DE ATENDIMENTO</p>
+      <div class="text-gold2 flex items-center justify-center" style="height:clamp(2rem,5vw,2.8rem)">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+      </div>
+      <p class="text-softtext text-xs mt-2 tracking-wide">AMBIENTE INCLUSIVO</p>
     </div>
   </div>
 </section>
@@ -402,7 +415,10 @@
 <!-- CTA FINAL -->
 <section id="contato" class="bg-cream py-24 px-5 md:px-8 text-center">
   <div class="max-w-2xl mx-auto">
-    <div class="fade-up text-gold stars mb-4" style="font-size:1.4rem">★★★★★</div>
+    <div class="fade-up inline-flex items-center gap-2 bg-gold/10 border border-gold/25 rounded-full px-4 py-2 mb-6">
+      <span class="text-gold stars text-sm">★★★★★</span>
+      <span class="text-ink text-sm font-medium">4,9 no Google · 248 avaliações</span>
+    </div>
     <h2 class="fade-up d1 font-serif font-semibold leading-tight text-ink mb-6" style="font-size:clamp(2rem,5.5vw,3rem)">
       Pronta para começar o seu cuidado?
     </h2>
@@ -422,12 +438,16 @@
 
 <footer class="bg-charcoal2 py-10 px-5 text-center border-t border-gold/10">
   <p class="font-serif text-cream text-lg mb-2">Triplolaser <span class="text-gold">Clínica Estética</span></p>
-  <p class="text-cream/50 text-xs">Av. Fábio Ferraz Bicudo, 436 - Jardim Esplanada, Indaiatuba - SP</p>
-  <!--
-    INSTAGRAM: nao encontrado no perfil do Google Maps da cliente.
-    Descomentar e preencher com o @ real assim que confirmado:
-    <a href="https://instagram.com/SEU_USUARIO_AQUI" target="_blank" rel="noopener" class="text-gold text-xs hover:text-rose transition">@triplolaser</a>
-  -->
+  <div class="flex items-center justify-center gap-3 flex-wrap">
+    <p class="text-cream/50 text-xs">Av. Fábio Ferraz Bicudo, 436 - Jardim Esplanada, Indaiatuba - SP</p>
+    <!--
+      INSTAGRAM: nao encontrado no perfil do Google Maps da cliente.
+      Descomentar e preencher com o @ real assim que confirmado (o span
+      separador abaixo tambem deve ser descomentado junto):
+      <span class="text-cream/30 text-xs">·</span>
+      <a href="https://instagram.com/SEU_USUARIO_AQUI" target="_blank" rel="noopener" class="text-gold text-xs hover:text-rose transition">@triplolaser</a>
+    -->
+  </div>
   <p class="text-cream/30 text-xs mt-6">&copy; 2026 Triplolaser Clínica Estética. Todos os direitos reservados.</p>
 </footer>
 
@@ -466,25 +486,62 @@
   }
 
   // animated counters (only real confirmed numbers: 4.9 rating, 248 reviews)
+  //
+  // BUGFIX: the previous version relied ONLY on requestAnimationFrame to both
+  // animate AND set the final value. rAF can be throttled or never fire at
+  // all in some real conditions (tab opened in background, some in-app
+  // browsers like Instagram/WhatsApp webviews, low-power mode), which left
+  // the counter stuck at "0" forever since nothing else ever wrote the final
+  // number. Fix: a setTimeout safety net independent of rAF guarantees the
+  // exact target value is always set, animated or not, on load or on scroll,
+  // desktop or mobile.
   const counters = document.querySelectorAll('.counter');
   const animateCounter = (el) => {
+    if (el.dataset.done === '1') return; // already animated, never replay
     const target = parseFloat(el.dataset.target);
     const decimals = parseInt(el.dataset.decimals, 10);
-    if (reduceMotion) { el.textContent = target.toFixed(decimals); return; }
+    const finalText = target.toFixed(decimals);
+
+    if (reduceMotion) { el.textContent = finalText; el.dataset.done = '1'; return; }
+
     const duration = 1400;
     const start = performance.now();
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
+      el.textContent = finalText;
+      el.dataset.done = '1';
+    };
     const step = (now) => {
+      if (finished) return;
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       el.textContent = (target * eased).toFixed(decimals);
       if (progress < 1) requestAnimationFrame(step);
+      else finish();
     };
     requestAnimationFrame(step);
+    // safety net: guarantees the correct final value even if rAF is
+    // throttled/paused and never completes the animation loop above
+    setTimeout(finish, duration + 500);
   };
-  const cio = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); cio.unobserve(e.target); } });
-  }, { threshold: 0.5 });
-  counters.forEach(c => cio.observe(c));
+
+  if (reduceMotion) {
+    counters.forEach(animateCounter);
+  } else {
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); cio.unobserve(e.target); } });
+    }, { threshold: 0.3 });
+    counters.forEach(c => cio.observe(c));
+    // safety net: if for any reason the observer never fires (e.g. the
+    // counters are already in view but the browser delays the first
+    // callback), force the animation shortly after load so it never gets
+    // stuck at "0"
+    window.addEventListener('load', () => {
+      setTimeout(() => counters.forEach(animateCounter), 1200);
+    });
+  }
 </script>
 
 </body>
