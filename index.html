@@ -55,7 +55,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
@@ -75,6 +75,7 @@
         },
         fontFamily: {
           serif: ['"Playfair Display"', 'serif'],
+          accent: ['"Cinzel"', 'serif'],
           sans: ['"Inter"', 'sans-serif'],
         },
       }
@@ -125,6 +126,13 @@
 
   /* --- hero: floating social-proof card --- */
   #heroCard { transition: transform .2s ease-out; will-change: transform; }
+
+  /* --- luxury accent treatment for buttons and nav links (Cinzel caps) --- */
+  .btn-luxe {
+    font-family: "Cinzel", serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
 
   /* respect reduced motion: kill all custom animation/transition */
   @media (prefers-reduced-motion: reduce) {
@@ -193,7 +201,7 @@
       <a href="#contato" class="hover:text-gold transition">Contato</a>
     </nav>
     <a href="https://wa.me/5519992293117?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener"
-       class="btn-anim bg-gold hover:bg-gold2 text-charcoal text-[13px] font-bold px-5 py-2.5 rounded-full">
+       class="btn-anim btn-luxe bg-gold hover:bg-gold2 text-charcoal text-[10.5px] sm:text-[13px] font-bold px-4 sm:px-5 py-2.5 rounded-full whitespace-nowrap">
        Agendar pelo WhatsApp
     </a>
   </div>
@@ -236,11 +244,11 @@
 
     <div class="hero-line hl4 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="https://wa.me/5519992293117?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener"
-         class="btn-anim w-full sm:w-auto bg-gold hover:bg-gold2 text-charcoal font-bold text-base px-9 py-4 rounded-full shadow-lg shadow-gold/15">
+         class="btn-anim btn-luxe w-full sm:w-auto bg-gold hover:bg-gold2 text-charcoal font-bold text-base px-9 py-4 rounded-full shadow-lg shadow-gold/15">
          Agendar Avaliação pelo WhatsApp
       </a>
       <a href="#servicos"
-         class="btn-anim w-full sm:w-auto border border-cream/25 hover:border-gold hover:text-gold text-cream/80 font-semibold text-base px-9 py-4 rounded-full">
+         class="btn-anim btn-luxe w-full sm:w-auto border border-cream/25 hover:border-gold hover:text-gold text-cream/80 font-semibold text-base px-9 py-4 rounded-full">
          Ver Procedimentos
       </a>
     </div>
@@ -514,7 +522,7 @@
 
     <div class="text-center mt-12">
       <a href="https://maps.app.goo.gl/fBKY1RXKDkrYYC5CA" target="_blank" rel="noopener"
-         class="fade-up inline-flex items-center gap-2 border-2 border-gold2 text-gold2 hover:bg-gold2 hover:text-cream font-bold text-sm px-7 py-3.5 rounded-full transition">
+         class="fade-up btn-luxe inline-flex items-center gap-2 border-2 border-gold2 text-gold2 hover:bg-gold2 hover:text-cream font-bold text-sm px-7 py-3.5 rounded-full transition">
          Ver avaliações no Google
       </a>
     </div>
@@ -546,11 +554,11 @@
       </div>
       <div class="fade-up d3 flex flex-wrap gap-4 mt-8">
         <a href="https://wa.me/5519992293117?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener"
-           class="btn-anim bg-gold hover:bg-gold2 text-charcoal font-bold text-sm px-7 py-3.5 rounded-full">
+           class="btn-anim btn-luxe bg-gold hover:bg-gold2 text-charcoal font-bold text-sm px-7 py-3.5 rounded-full">
            Agendar pelo WhatsApp
         </a>
         <a href="https://maps.app.goo.gl/fBKY1RXKDkrYYC5CA" target="_blank" rel="noopener"
-           class="btn-anim border-2 border-cream/20 hover:border-gold hover:text-gold text-cream font-bold text-sm px-7 py-3.5 rounded-full">
+           class="btn-anim btn-luxe border-2 border-cream/20 hover:border-gold hover:text-gold text-cream font-bold text-sm px-7 py-3.5 rounded-full">
            Como Chegar
         </a>
       </div>
@@ -577,11 +585,11 @@
     <p class="fade-up d2 text-softtext mb-10">Agende sua avaliação e conheça o protocolo ideal para você. Estamos por aqui, prontas para te receber.</p>
     <div class="fade-up d3 flex flex-col sm:flex-row items-center justify-center gap-4">
       <a href="https://wa.me/5519992293117?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener"
-         class="btn-anim w-full sm:w-auto bg-gold hover:bg-gold2 text-charcoal font-bold text-base px-9 py-4 rounded-full shadow-lg shadow-gold/20">
+         class="btn-anim btn-luxe w-full sm:w-auto bg-gold hover:bg-gold2 text-charcoal font-bold text-base px-9 py-4 rounded-full shadow-lg shadow-gold/20">
          Agendar Avaliação pelo WhatsApp
       </a>
       <a href="tel:+5519992293117"
-         class="btn-anim w-full sm:w-auto border-2 border-ink/15 hover:border-gold hover:text-gold2 text-ink font-bold text-base px-9 py-4 rounded-full">
+         class="btn-anim btn-luxe w-full sm:w-auto border-2 border-ink/15 hover:border-gold hover:text-gold2 text-ink font-bold text-base px-9 py-4 rounded-full">
          Ligar Agora
       </a>
     </div>
